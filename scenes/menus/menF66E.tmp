@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://cbbkfoixcjuka"]
+
+[ext_resource type="Script" path="res://scenes/menus/menu_ui.gd" id="1_x2fdc"]
+[ext_resource type="Theme" uid="uid://ikks65y6tq6k" path="res://assets/main_theme.tres" id="2_axeig"]
+
+[node name="MenuUI" type="CanvasLayer"]
+visible = false
+script = ExtResource("1_x2fdc")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_axeig")
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer"]
+layout_mode = 2
+color = Color(0.188235, 0.188235, 0.188235, 0.52549)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+alignment = 1
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "RETRY"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]

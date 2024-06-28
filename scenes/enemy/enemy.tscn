@@ -1,0 +1,96 @@
+[gd_scene load_steps=7 format=3 uid="uid://dr45mubmukfew"]
+
+[sub_resource type="GDScript" id="GDScript_0dvc6"]
+script/source = "extends CharacterBody2D
+
+
+var player = null
+var type :GloablUtils.type = GloablUtils.type.RED
+var mov_speed = 60
+
+func _ready():
+	player  = GloablUtils.get_player()
+	GloablUtils.enemy_dead.connect(on_enemy_death)
+
+func _physics_process(delta):
+	if is_instance_valid(player):
+		velocity = mov_speed*(player.global_position- global_position).normalized()
+	if velocity.length() > mov_speed*0.2:
+		$AnimationPlayer.play(\"walk\")
+		$SpriteContainer.scale.x = -sign(velocity.x)
+	else:
+		$AnimationPlayer.stop()
+	move_and_slide()
+
+func _process(delta):
+	modulate = GloablUtils.type_to_color[type]
+
+
+func on_enemy_death(old_type):
+	type = (old_type+1)%4
+
+func die():
+	GloablUtils.emit_signal(\"enemy_dead\",type)
+	queue_free()
+"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ynp7r"]
+load_path = "res://.godot/imported/enemy.png-6bf1ed56257844884fe6a255db92cdad.ctex"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_iqrrb"]
+radius = 11.1803
+
+[sub_resource type="Animation" id="Animation_dkfsi"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteContainer/Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_iw2cc"]
+resource_name = "walk"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteContainer/Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.285, 0.785), Vector2(1, 1), Vector2(1.285, 0.785), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xc1js"]
+_data = {
+"RESET": SubResource("Animation_dkfsi"),
+"walk": SubResource("Animation_iw2cc")
+}
+
+[node name="Enemy" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 5
+script = SubResource("GDScript_0dvc6")
+
+[node name="SpriteContainer" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="SpriteContainer"]
+position = Vector2(1.78814e-07, 0)
+texture = SubResource("CompressedTexture2D_ynp7r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_iqrrb")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_xc1js")
+}

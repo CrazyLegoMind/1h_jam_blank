@@ -1,0 +1,6 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://ikks65y6tq6k"]
+
+[ext_resource type="FontFile" uid="uid://bwsx561v3bmj0" path="res://assets/Xolonium-Regular.ttf" id="1_w3lty"]
+
+[resource]
+default_font = ExtResource("1_w3lty")
