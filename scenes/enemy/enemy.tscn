@@ -48,8 +48,8 @@ func _on_area_2d_body_entered(body):
 			GlobalUtils.add_score(-100)
 			body.die(\"you didn't escape in time!\")
 			return
-	var i = randi()%7
-	var check = 10 - GlobalUtils.enemy_killed 
+	var i = randi()%10
+	var check = 0 if GlobalUtils.enemy_killed >= 10 else 10 - GlobalUtils.enemy_killed
 	print(i, \" \",check)
 	if i > check:
 		$AnimationPlayer.play(\"transform\")
