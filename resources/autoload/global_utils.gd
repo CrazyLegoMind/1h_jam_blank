@@ -6,16 +6,21 @@ signal player_died
 
 var menu_ui_scene = preload("res://scenes/menus/menu_ui.tscn")
 var menu_ui_node:MenuUi = menu_ui_scene.instantiate()
+var player = null
 
 func _ready():
 	player_died.connect(_on_player_died)
+	player_spawned.connect(_on_player_spawned)
 	add_child(menu_ui_node)
 	menu_ui_node.retry.connect(_on_menu_retry)
 
 
 func _on_player_died():
 	menu_ui_node.show_pause_menu(true)
- 
+
+func _on_player_spawned(pl):
+	player = pl
+
 func _on_menu_retry():
 	menu_ui_node.update_score(0)
 	reload_scene()

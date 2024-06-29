@@ -27,7 +27,10 @@ func _physics_process(delta):
 		anim = "walk_v"
 		animation_player_node.speed_scale *= movement_input.y
 	if velocity.x != 0 :
-		$SpriteContainer.scale.x = sign(movement_input.x)
+		if sign(movement_input.x) == -1:
+			$SpriteContainer.scale.x = -1
+		else:
+			$SpriteContainer.scale.x = 1
 		animation_player_node.speed_scale = 4
 		anim = "walk_h"
 	$AnimationPlayer.play(anim)
