@@ -4,6 +4,7 @@ class_name MenuUi
 
 var _displayed_score := 0
 var _time_elapsed :float = 0.0
+var score_given = 0
 ##variable to start/stop the timer
 var time_flowing:bool = false:
 	set(value):
@@ -21,6 +22,7 @@ func _input(event):
 func _on_retry_pressed():
 	_displayed_score= 0
 	_time_elapsed= 0.0
+	score_given = 0
 	show_pause_menu(false)
 	retry.emit()
 
@@ -50,3 +52,6 @@ func update_time_elapsed():
 	var minutes:int = (temp_time)/float(60)
 	temp_time -= minutes*60
 	%TimeValue.text = "%02d:%02d:%02d:%05.2f" % [days,hours,minutes,temp_time]
+
+func set_end_text(txt):
+	%EndText.text = txt
