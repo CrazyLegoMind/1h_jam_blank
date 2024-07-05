@@ -12,7 +12,9 @@ var time_flowing:bool = false:
 signal retry
 
 func _ready():
-	pass
+	_displayed_score= 0
+	_time_elapsed= 0.0
+	update_score(0)
 
 func _input(event):
 	if Input.is_action_just_pressed("ui_cancel"):
