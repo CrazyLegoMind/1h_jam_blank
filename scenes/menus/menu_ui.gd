@@ -36,7 +36,6 @@ func _process(delta):
 	var player = GlobalUtils.player
 	if is_instance_valid(player):
 		var adjusted_offset = (40.0/(player.grabbing+0.7))/120
-		print(adjusted_offset, " ", player.body_speed)
 		bar_gradient.offsets[1] =0.5-adjusted_offset
 		bar_gradient.offsets[5] =0.5+adjusted_offset
 	if time_flowing and not get_tree().paused:

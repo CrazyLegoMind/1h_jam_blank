@@ -34,25 +34,17 @@ func _input(event):
 	if Input.is_action_just_pressed("ui_up"):
 		GlobalUtils.start_game_timer()
 
-var body_speed : = 0.0
 func _physics_process(delta):
 	tilt = body.rotation_degrees
-	tilt_force = 0.0
+	tilt_force = lerpf(tilt_force,0.0,delta)
 	if Input.is_action_pressed("tilt_l"):
 		tilt_force = -40
 		tilt_force = -TILT_FORCE_MAX
 	if Input.is_action_pressed("tilt_r"):
 		tilt_force = 40
-	tilt_force = lerp(tilt_force,0.0,delta)
-	body.rotation_degrees = body.rotation_degrees + tilt_force*delta +delta*(
-								body.rotation_degrees*0.7+
-								body.rotation_degrees*grabbing)
-	body.rotation_degrees = clamp(body.rotation_degrees,-60,60)
-	if body.rotation_degrees > 59 or body.rotation_degrees <-59:
-		tilt_force = TILT_FORCE_MAX
-	body_speed = lerpf(body_speed, tilt_force + body.rotation_degrees*(0.7+grabbing),delta)
+	var body_speed = tilt_force + body.rotation_degrees*(0.7+grabbing)
 	body.rotation_degrees = body.rotation_degrees + delta*body_speed
-	body.rotation_degrees = clamp(body.rotation_degrees,-60,6)
+	body.rotation_degrees = clamp(body.rotation_degrees,-60,60)
 	tilt = body.rotation_degrees
 	if body.rotation_degrees >= 60 or body.rotation_degrees <= -60:
 		die()
