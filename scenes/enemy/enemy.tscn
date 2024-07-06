@@ -1,73 +1,16 @@
 [gd_scene load_steps=12 format=3 uid="uid://dr45mubmukfew"]
 
 [ext_resource type="Texture2D" uid="uid://ctorfw511hrmh" path="res://scenes/enemy/enemy_idle.png" id="1_4o1a7"]
+[ext_resource type="Script" path="res://scenes/enemy/enemy.gd" id="1_bejel"]
+[ext_resource type="Script" path="res://scenes/enemy/VectorVisualizer.gd" id="2_f3t68"]
 [ext_resource type="Texture2D" uid="uid://bv5s6bcsus83r" path="res://scenes/enemy/enemy_alive.png" id="2_rqacl"]
-[ext_resource type="Texture2D" uid="uid://cydmfwgjndnch" path="res://icon.svg" id="3_o84mq"]
-
-[sub_resource type="GDScript" id="GDScript_0dvc6"]
-script/source = "extends CharacterBody2D
-
-
-var player = null
-var mov_speed = 100
-var chase = false
-var _elapsed_time: = 0.0
-
-func _ready():
-	$AnimationPlayer.play(\"idle\")
-	GlobalUtils.player_spawned.connect(_on_player_spawned)
-
-func _physics_process(delta):
-	var velocity_dir = Vector2()
-	if chase and is_instance_valid(player):
-		velocity_dir = (player.global_position-global_position).normalized()
-		velocity = velocity_dir*mov_speed
-		$AnimationPlayer.play(\"walk\")
-	if velocity.length() > mov_speed*0.5:
-		$SpriteContainer.scale.x = -sign(velocity.x)
-	move_and_slide()
-	if velocity.length() > mov_speed*0.5:
-		_elapsed_time += delta
-		if _elapsed_time >= 1:
-			_elapsed_time = 0
-			GlobalUtils.add_score(1)
-
-
-func _on_player_spawned(pl):
-	print(\"got_player\")
-	player = pl
-
-func die():
-	GlobalUtils.add_score(10)
-	queue_free()
-
-
-func _on_area_2d_body_entered(body):
-	if chase:
-		if body.has_method(\"die\"):
-			GlobalUtils.add_score(-100)
-			body.die(\"you didn't escape in time!\")
-			return
-	var i = randi()%10
-	var check = 0 if GlobalUtils.enemy_killed >= 10 else 10 - GlobalUtils.enemy_killed
-	print(i, \" \",check)
-	if i > check:
-		$AnimationPlayer.play(\"transform\")
-		GlobalUtils.chase_running = true
-	else:
-		GlobalUtils.enemy_killed += 1
-		die()
-
-func _on_animation_player_animation_finished(anim_name):
-	if anim_name == \"transform\":
-		chase = true
-		
-"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_f5f1i"]
 radius = 9.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_usmxg"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_v4nbc"]
+radius = 4.0
+height = 20.0
 
 [sub_resource type="Animation" id="Animation_dkfsi"]
 length = 0.001
@@ -217,7 +160,7 @@ _data = {
 [node name="Enemy" type="CharacterBody2D"]
 collision_layer = 4
 collision_mask = 5
-script = SubResource("GDScript_0dvc6")
+script = ExtResource("1_bejel")
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 0
@@ -237,33 +180,25 @@ texture = ExtResource("2_rqacl")
 position = Vector2(1.78814e-07, 0)
 texture = ExtResource("1_4o1a7")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-rotation = 0.785398
-shape = SubResource("RectangleShape2D_usmxg")
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_v4nbc")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_xc1js")
 }
 
-[node name="RayCast4" type="RayCast2D" parent="."]
-target_position = Vector2(0, 16)
-
-[node name="RayCast1" type="RayCast2D" parent="."]
-target_position = Vector2(-16, 0)
-
-[node name="RayCast2" type="RayCast2D" parent="."]
-target_position = Vector2(0, -16)
-
-[node name="RayCast3" type="RayCast2D" parent="."]
-target_position = Vector2(16, 0)
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="VectorVisualizer" type="Node2D" parent="."]
 visible = false
-scale = Vector2(0.25, -0.03)
-texture = ExtResource("3_o84mq")
-centered = false
-offset = Vector2(0, -54.085)
+script = ExtResource("2_f3t68")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+unique_name_in_owner = true
+path_desired_distance = 5.0
+target_desired_distance = 20.0
+radius = 15.0
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

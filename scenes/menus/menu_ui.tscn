@@ -78,10 +78,16 @@ alignment = 1
 
 [node name="Retry" type="Button" parent="PauseMenu/VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 text = "START"
 
 [node name="EndText" type="Label" parent="PauseMenu/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+text = "questo e' un testo finale placeholder
+e non definitivo, ricordati di toglierlo
+grazie"
+horizontal_alignment = 1
 
 [connection signal="pressed" from="PauseMenu/VBoxContainer/Retry" to="." method="_on_retry_pressed"]

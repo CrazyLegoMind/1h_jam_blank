@@ -8,17 +8,26 @@ var menu_ui_scene = preload("res://scenes/menus/menu_ui.tscn")
 var menu_ui_node:MenuUi = menu_ui_scene.instantiate()
 var enemy_killed := 0
 var chase_running = false
+var player = null
 
 func _ready():
 	player_died.connect(_on_player_died)
+	enemy_dead.connect(_on_enemy_dead)
+	player_spawned.connect(_on_player_spawned)
 	add_child(menu_ui_node)
 	menu_ui_node.retry.connect(_on_menu_retry)
 
 
-func _on_player_died(msg):
+func _on_player_died(txt ="end"):
 	menu_ui_node.show_pause_menu(true)
-	menu_ui_node.set_end_text(msg)
- 
+	menu_ui_node.set_end_text(txt)
+
+func _on_enemy_dead():
+	pass
+
+func _on_player_spawned(pl):
+	player = pl
+
 func _on_menu_retry():
 	chase_running = false
 	enemy_killed = 0

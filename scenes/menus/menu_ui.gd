@@ -1,6 +1,7 @@
 extends CanvasLayer
 class_name MenuUi
 
+@onready var end_text = %EndText
 
 var _displayed_score := 0
 var _time_elapsed :float = 0.0
@@ -13,10 +14,13 @@ var time_flowing:bool = false:
 signal retry
 
 func _ready():
-	pass
+	_displayed_score= 0
+	_time_elapsed= 0.0
+	update_score(0)
 
 func _input(event):
 	if Input.is_action_just_pressed("ui_cancel"):
+		set_end_text("unreversible pause")
 		show_pause_menu(true)
 
 func _on_retry_pressed():
@@ -53,5 +57,5 @@ func update_time_elapsed():
 	temp_time -= minutes*60
 	%TimeValue.text = "%02d:%02d:%02d:%05.2f" % [days,hours,minutes,temp_time]
 
-func set_end_text(txt):
-	%EndText.text = txt
+func set_end_text(text:String):
+	end_text.text = text

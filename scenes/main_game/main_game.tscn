@@ -1,9 +1,16 @@
-[gd_scene load_steps=8 format=3 uid="uid://xtuh2xd5x5sm"]
+[gd_scene load_steps=9 format=3 uid="uid://xtuh2xd5x5sm"]
 
 [ext_resource type="Script" path="res://scenes/main_game/main_game.gd" id="1_6j6ub"]
 [ext_resource type="Texture2D" uid="uid://b1mh1r0420nq1" path="res://scenes/main_game/stdtileset.png" id="1_i02de"]
 [ext_resource type="PackedScene" uid="uid://cv1sae8op8unp" path="res://scenes/player/player.tscn" id="2_yadwx"]
 [ext_resource type="PackedScene" uid="uid://dr45mubmukfew" path="res://scenes/enemy/enemy.tscn" id="4_p2qjw"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_e3k5g"]
+vertices = PackedVector2Array(527, 623, 625, 625, 47, 625, 369, 623, 433, 367, 463, 401, 369, 401, 367, 399, 367, 305, 625, 47, 591, 367, 591, 241, 559, 143, 559, 81, 241, 433, 241, 591, 207, 527, 207, 337, 687, 687, 750, 723, -75, 737, -15, 687, 47, 47, 305, 81, 527, 527, 527, 561, 527, 465, 239, 143, 239, 81, 305, 239, 145, 81, -71, -74, -15, 337, 495, 433, 746, -78, 687, -15, -15, -15, 399, 143, 529, 241, 399, 175, 145, 113, 113, 113, 47, 303, 113, 271, 207, 271, 207, 143, 273, 305, 433, 305, 367, 239, 367, 175, 529, 305, 495, 465, 463, 433, 369, 463, 401, 463, 401, 495, 433, 495, 433, 527, 431, 529, 431, 561, 303, 529, 303, 433, 145, 337, 145, 401, 113, 401, 47, 337, 113, 465, 81, 465, 369, 591, 81, 527, 273, 399, -15, 303)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 6, 7, 8), PackedInt32Array(9, 1, 10, 11), PackedInt32Array(9, 11, 12, 13), PackedInt32Array(14, 15, 16, 17), PackedInt32Array(18, 19, 20, 21), PackedInt32Array(22, 9, 13, 23), PackedInt32Array(24, 10, 1, 25), PackedInt32Array(10, 24, 26), PackedInt32Array(27, 28, 23, 29), PackedInt32Array(22, 23, 28), PackedInt32Array(22, 28, 30), PackedInt32Array(21, 20, 31, 32), PackedInt32Array(4, 10, 26, 33), PackedInt32Array(34, 19, 18, 35), PackedInt32Array(31, 34, 35, 36), PackedInt32Array(37, 12, 11, 38, 39), PackedInt32Array(30, 40, 41, 22), PackedInt32Array(42, 22, 41, 43), PackedInt32Array(44, 45, 27, 29, 46), PackedInt32Array(47, 48, 49, 39, 38, 50), PackedInt32Array(26, 51, 33), PackedInt32Array(33, 52, 5), PackedInt32Array(4, 33, 5), PackedInt32Array(48, 47, 4, 8, 29), PackedInt32Array(29, 8, 46), PackedInt32Array(53, 54, 55), PackedInt32Array(55, 56, 57, 58), PackedInt32Array(24, 25, 59, 58, 57), PackedInt32Array(55, 58, 60, 61, 53), PackedInt32Array(43, 62, 63, 64, 65, 42), PackedInt32Array(64, 66, 67, 65), PackedInt32Array(15, 68, 3, 2), PackedInt32Array(16, 15, 2, 69), PackedInt32Array(69, 2, 65, 67), PackedInt32Array(1, 0, 25), PackedInt32Array(7, 6, 53, 61, 70), PackedInt32Array(70, 61, 14, 17), PackedInt32Array(46, 70, 17, 44), PackedInt32Array(43, 44, 17, 62), PackedInt32Array(71, 42, 65, 32), PackedInt32Array(71, 32, 31), PackedInt32Array(31, 36, 71)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-86, -89, 761, -94, 766, 738, -91, 753)])
+source_geometry_group_name = &"navigation_polygon_source_group"
+agent_radius = 15.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5bi7h"]
 resource_name = "stdtileset"
@@ -593,9 +600,10 @@ texture_region_size = Vector2i(32, 32)
 [sub_resource type="TileSet" id="TileSet_mq6ro"]
 tile_size = Vector2i(32, 32)
 physics_layer_0/collision_layer = 1
+physics_layer_0/collision_mask = 0
 terrain_set_0/mode = 0
-terrain_set_0/terrain_0/name = "base"
-terrain_set_0/terrain_0/color = Color(0.501961, 1, 0.25098, 1)
+terrain_set_0/terrain_0/name = "walls"
+terrain_set_0/terrain_0/color = Color(1, 0, 0, 1)
 sources/0 = SubResource("TileSetAtlasSource_5bi7h")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_awrvy"]
@@ -604,7 +612,11 @@ size = Vector2(79, 318)
 [node name="MainGame" type="Node2D"]
 script = ExtResource("1_6j6ub")
 
-[node name="TileMap" type="TileMap" parent="."]
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_e3k5g")
+
+[node name="GameMap" type="TileMap" parent="NavigationRegion2D"]
+unique_name_in_owner = true
 tile_set = SubResource("TileSet_mq6ro")
 format = 2
 layer_0/tile_data = PackedInt32Array(1310720, 0, 1, 1245184, 131072, 1, 1179648, 131072, 1, 1114112, 131072, 1, 1048576, 131072, 1, 983040, 131072, 1, 917504, 131072, 1, 851968, 131072, 1, 786432, 131072, 1, 720896, 327680, 1, 524288, 393216, 0, 458752, 131072, 1, 393216, 131072, 1, 327680, 131072, 1, 262144, 131072, 1, 196608, 131072, 1, 131072, 131072, 1, 2, 131072, 0, 3, 131072, 0, 5, 131072, 0, 6, 131072, 0, 7, 131072, 0, 8, 131072, 0, 9, 131072, 0, 10, 131072, 0, 11, 131072, 0, 12, 131072, 0, 13, 131072, 0, 14, 131072, 0, 15, 131072, 0, 16, 131072, 0, 17, 131072, 0, 18, 131072, 0, 19, 131072, 0, 1310721, 131072, 0, 1310722, 131072, 0, 1310723, 131072, 0, 1310724, 131072, 0, 1310725, 131072, 0, 1310726, 131072, 0, 1310727, 131072, 0, 1310728, 131072, 0, 1310729, 131072, 0, 1310730, 131072, 0, 1310731, 131072, 0, 1310732, 131072, 0, 1310733, 131072, 0, 1310734, 131072, 0, 1310735, 131072, 0, 1310736, 131072, 0, 1310737, 131072, 0, 1310738, 131072, 0, 1310739, 131072, 0, 1310740, 65536, 1, 1245204, 131072, 1, 1179668, 131072, 1, 1114132, 131072, 1, 1048596, 131072, 1, 983060, 131072, 1, 917524, 131072, 1, 851988, 131072, 1, 786452, 131072, 1, 720916, 131072, 1, 655380, 131072, 1, 589844, 131072, 1, 524308, 131072, 1, 458772, 131072, 1, 393236, 131072, 1, 327700, 131072, 1, 262164, 131072, 1, 196628, 131072, 1, 131092, 131072, 1, 65556, 131072, 1, 20, 65536, 0, 917512, 327680, 1, 983048, 131072, 1, 1114122, 131072, 0, 1114123, 131072, 0, 1114124, 65536, 0, 196622, 131072, 0, 196623, 131072, 0, 196624, 327680, 0, 196621, 131072, 0, 196620, 131072, 0, 196619, 327680, 4, 327690, 131072, 1, 393226, 393216, 0, 262154, 131072, 5, 196618, 458752, 0, 1048584, 131072, 1, 1114120, 0, 1, 1114121, 131072, 0, 4, 131072, 0, 65536, 131072, 1, 0, 0, 0, 1, 131072, 0, 196614, 327680, 0, 196613, 0, 0, 262149, 196608, 4, 262148, 458752, 0, 327684, 262144, 2, 327685, 327680, 2, 393221, 327680, 2, 393220, 262144, 2, 458756, 458752, 1, 458757, 524288, 1, 983043, 393216, 1, 983044, 262144, 5, 983045, 524288, 1, 917509, 327680, 2, 851973, 196608, 4, 720901, 327680, 1, 786437, 131072, 1, 917508, 262144, 2, 851972, 458752, 0, 655374, 393216, 1, 655375, 131072, 0, 655376, 131072, 0, 655377, 65536, 1, 851980, 393216, 1, 851981, 65536, 0, 917517, 0, 1, 917518, 65536, 0, 983054, 0, 1, 983055, 327680, 0, 1179661, 131072, 0, 1179662, 131072, 0, 1179663, 327680, 0, 1179660, 0, 1, 720906, 524288, 1, 720905, 458752, 1, 655370, 524288, 0, 655369, 458752, 0, 589841, 131072, 1, 524305, 327680, 1, 262155, 524288, 1)
