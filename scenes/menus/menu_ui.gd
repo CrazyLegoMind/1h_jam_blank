@@ -1,8 +1,8 @@
 extends CanvasLayer
 class_name MenuUi
-@onready var tilt_bar_l = %TiltBarL
-@onready var tilt_bar_r = %TiltBarR
+@export var bar_gradient:Gradient = null
 
+@onready var tilt_bar_l = %TiltBarL
 @onready var end_text = %EndText
 
 var _displayed_score := 0
@@ -24,8 +24,6 @@ func _input(event):
 		set_end_text("unreversible pause")
 		show_pause_menu(true)
 
-
-
 func _on_retry_pressed():
 	if not $PauseMenu.visible:
 		return
@@ -35,6 +33,12 @@ func _on_retry_pressed():
 	retry.emit()
 
 func _process(delta):
+	var player = GlobalUtils.player
+	if is_instance_valid(player):
+		var adjusted_offset = (40.0/(player.grabbing+0.7))/120
+		print(adjusted_offset, " ", player.body_speed)
+		bar_gradient.offsets[1] =0.5-adjusted_offset
+		bar_gradient.offsets[5] =0.5+adjusted_offset
 	if time_flowing and not get_tree().paused:
 		_time_elapsed += delta
 	update_time_elapsed()
@@ -62,14 +66,7 @@ func update_time_elapsed():
 	%TimeValue.text = "%02d:%02d:%02d:%05.2f" % [days,hours,minutes,temp_time]
 
 func set_tilt(tilt:int):
-	if tilt > 0:
-		tilt_bar_l.value = 1
-		tilt_bar_r.value = tilt
-		return
-	tilt_bar_r.value = 1
 	tilt_bar_l.value = -tilt
 
-func set_text(txt):
-	$PauseMenu/VBoxContainer/Label.text = txt
 func set_end_text(text:String):
 	end_text.text = text

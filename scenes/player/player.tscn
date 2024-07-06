@@ -217,6 +217,9 @@ _data = {
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
 script = ExtResource("1_5v0kh")
+deadtxt = "Do you really tried to carry that without a straight back?
+"
+deadtxt2 = "It's better you improve your resting posture"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -4)

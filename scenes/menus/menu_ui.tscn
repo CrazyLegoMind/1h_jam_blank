@@ -1,14 +1,25 @@
-[gd_scene load_steps=4 format=3 uid="uid://cbbkfoixcjuka"]
+[gd_scene load_steps=7 format=3 uid="uid://cbbkfoixcjuka"]
 
 [ext_resource type="Script" path="res://scenes/menus/menu_ui.gd" id="1_x2fdc"]
 [ext_resource type="Theme" uid="uid://ikks65y6tq6k" path="res://assets/main_theme.tres" id="2_axeig"]
+[ext_resource type="Gradient" uid="uid://c3ilwp6ny4umq" path="res://scenes/menus/bar_gradient.tres" id="3_3kl3u"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cjhy6"]
-bg_color = Color(1, 0, 0, 1)
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_5io6u"]
+gradient = ExtResource("3_3kl3u")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yx3g5"]
+texture = SubResource("GradientTexture1D_5io6u")
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_nwur1"]
+grow_begin = -1.0
+grow_end = 0.0
+thickness = 2
+vertical = true
 
 [node name="MenuUI" type="CanvasLayer"]
 process_mode = 3
 script = ExtResource("1_x2fdc")
+bar_gradient = ExtResource("3_3kl3u")
 
 [node name="ScoreLabels" type="MarginContainer" parent="."]
 anchors_preset = 15
@@ -17,6 +28,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_axeig")
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 9
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ScoreLabels"]
 modulate = Color(0, 0, 0, 0.380392)
@@ -63,33 +77,23 @@ horizontal_alignment = 2
 [node name="HBoxContainer" type="HBoxContainer" parent="ScoreLabels"]
 layout_mode = 2
 size_flags_horizontal = 4
+theme_override_constants/separation = 0
 
 [node name="TiltBarL" type="ProgressBar" parent="ScoreLabels/HBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(100, 26.63)
+custom_minimum_size = Vector2(480, 20)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
-theme_override_styles/fill = SubResource("StyleBoxFlat_cjhy6")
-min_value = 1.0
-max_value = 50.0
-value = 1.0
+theme_override_styles/background = SubResource("StyleBoxTexture_yx3g5")
+theme_override_styles/fill = SubResource("StyleBoxLine_nwur1")
+min_value = -60.0
+max_value = 60.0
 fill_mode = 1
 show_percentage = false
 
-[node name="TiltBarR" type="ProgressBar" parent="ScoreLabels/HBoxContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(100, 26.63)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 8
-theme_override_styles/fill = SubResource("StyleBoxFlat_cjhy6")
-min_value = 1.0
-max_value = 50.0
-value = 1.0
-show_percentage = false
-
 [node name="PauseMenu" type="MarginContainer" parent="."]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -111,12 +115,6 @@ alignment = 1
 layout_mode = 2
 size_flags_horizontal = 4
 text = "RETRY"
-
-[node name="Label" type="Label" parent="PauseMenu/VBoxContainer"]
-layout_mode = 2
-text = "You broke your back! keep your back straight
-when lifting heavy weights"
-horizontal_alignment = 1
 
 [node name="EndText" type="Label" parent="PauseMenu/VBoxContainer"]
 unique_name_in_owner = true
