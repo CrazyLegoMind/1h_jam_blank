@@ -1,33 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://dr45mubmukfew"]
 
 [ext_resource type="Texture2D" uid="uid://cydmfwgjndnch" path="res://icon.svg" id="1_7hb67"]
+[ext_resource type="Script" path="res://scenes/enemy/enemy.gd" id="1_bejel"]
 [ext_resource type="Script" path="res://scenes/enemy/VectorVisualizer.gd" id="2_f3t68"]
-
-[sub_resource type="GDScript" id="GDScript_0dvc6"]
-script/source = "extends CharacterBody2D
-
-var player = null
-var mov_speed = 60
-var direction := Vector2()
-var following := false
-@onready var nav_agent:NavigationAgent2D = %NavigationAgent2D
-
-func _physics_process(delta):
-	player = GlobalUtils.player
-	direction = Vector2()
-	if following and is_instance_valid(player) and nav_agent.is_target_reachable():
-		nav_agent.target_position = player.global_position
-		direction =(nav_agent.get_next_path_position()-global_position).normalized()
-	velocity = direction*mov_speed
-	move_and_slide()
-
-func die():
-	queue_free()
-
-
-func _on_timer_timeout():
-	following = true
-"
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_v4nbc"]
 radius = 4.0
@@ -72,7 +47,7 @@ _data = {
 [node name="Enemy" type="CharacterBody2D"]
 collision_layer = 4
 collision_mask = 5
-script = SubResource("GDScript_0dvc6")
+script = ExtResource("1_bejel")
 
 [node name="SpriteContainer" type="Node2D" parent="."]
 scale = Vector2(0.145, 0.145)
