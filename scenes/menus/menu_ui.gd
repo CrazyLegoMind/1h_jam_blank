@@ -3,6 +3,7 @@ class_name MenuUi
 @onready var tilt_bar_l = %TiltBarL
 @onready var tilt_bar_r = %TiltBarR
 
+@onready var end_text = %EndText
 
 var _displayed_score := 0
 var _time_elapsed :float = 0.0
@@ -20,6 +21,7 @@ func _ready():
 
 func _input(event):
 	if Input.is_action_just_pressed("ui_cancel"):
+		set_end_text("unreversible pause")
 		show_pause_menu(true)
 
 
@@ -69,3 +71,5 @@ func set_tilt(tilt:int):
 
 func set_text(txt):
 	$PauseMenu/VBoxContainer/Label.text = txt
+func set_end_text(text:String):
+	end_text.text = text
