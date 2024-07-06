@@ -5,8 +5,9 @@
 [ext_resource type="Script" path="res://scenes/enemy/VectorVisualizer.gd" id="2_f3t68"]
 [ext_resource type="Texture2D" uid="uid://bv5s6bcsus83r" path="res://scenes/enemy/enemy_alive.png" id="2_rqacl"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_f5f1i"]
-radius = 9.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_r47e8"]
+radius = 4.0
+height = 20.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_v4nbc"]
 radius = 4.0
@@ -131,6 +132,18 @@ tracks/2/keys = {
 "update": 0,
 "values": [Vector2(0.2, 0.2), Vector2(1, 1)]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("SpriteContainer:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_erd7d"]
 resource_name = "walk"
@@ -167,18 +180,21 @@ collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("CircleShape2D_f5f1i")
+position = Vector2(0, -4)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_r47e8")
 
 [node name="SpriteContainer" type="Node2D" parent="."]
 
+[node name="Sprite2D" type="Sprite2D" parent="SpriteContainer"]
+position = Vector2(0, -9)
+texture = ExtResource("1_4o1a7")
+
 [node name="mimicSprite" type="Sprite2D" parent="SpriteContainer"]
 visible = false
+position = Vector2(0, -9)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("2_rqacl")
-
-[node name="Sprite2D" type="Sprite2D" parent="SpriteContainer"]
-position = Vector2(1.78814e-07, 0)
-texture = ExtResource("1_4o1a7")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
 position = Vector2(0, -4)
