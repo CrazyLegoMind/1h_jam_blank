@@ -17,7 +17,7 @@ func _ready():
 func on_enemy_died():
 	tilt_force = 0
 	grabbing = 0.0
-	body.rotation_degrees =0
+	body.rotation_degrees = body.rotation_degrees*0.5
 	$AnimationPlayer.stop()
 	locked = true
 	$AnimationPlayer.stop()
@@ -73,5 +73,6 @@ func grab(node):
 	await $AnimationPlayer.animation_finished
 	node.set_target(grab_position)
 	locked = false
-	body.rotation_degrees = randi_range(-10,10)
-	grabbing += 0.5 + GlobalUtils.dead_enemies*0.04
+	body.rotation_degrees = body.rotation_degrees*0.6
+	grabbing += 0.6 + GlobalUtils.dead_enemies*0.05
+	print(grabbing)

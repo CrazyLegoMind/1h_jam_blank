@@ -229,6 +229,7 @@ metadata/_edit_group_ = true
 [node name="body" type="Sprite2D" parent="SpriteContainer"]
 unique_name_in_owner = true
 position = Vector2(0, -9)
+rotation = 0.349066
 texture = ExtResource("3_vkamo")
 centered = false
 offset = Vector2(-5, -18)

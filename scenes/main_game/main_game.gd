@@ -34,6 +34,5 @@ func modify_cell(scren_pos:Vector2, clear:bool = false):
 
 
 func _on_area_2d_area_entered(area):
-	print("entered")
 	if area.has_method("die"):
 		area.die()
