@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://xtuh2xd5x5sm"]
+[gd_scene load_steps=9 format=3 uid="uid://xtuh2xd5x5sm"]
 
 [ext_resource type="Script" path="res://scenes/main_game/main_game.gd" id="1_6j6ub"]
 [ext_resource type="Texture2D" uid="uid://b1mh1r0420nq1" path="res://scenes/main_game/stdtileset.png" id="1_i02de"]
 [ext_resource type="PackedScene" uid="uid://cv1sae8op8unp" path="res://scenes/player/player.tscn" id="2_yadwx"]
+[ext_resource type="PackedScene" uid="uid://crjhw7hp8sh57" path="res://scenes/crate/crate.tscn" id="4_xa0hp"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_e3k5g"]
 vertices = PackedVector2Array(625, 625, 47, 625, 47, 47, 625, 47, 687, 687, 750, 723, -75, 737, -15, 687, -71, -74, -15, -15, 746, -78, 687, -15)
@@ -605,6 +606,9 @@ terrain_set_0/terrain_0/name = "walls"
 terrain_set_0/terrain_0/color = Color(1, 0, 0, 1)
 sources/0 = SubResource("TileSetAtlasSource_5bi7h")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j1k01"]
+size = Vector2(138.5, 56)
+
 [node name="MainGame" type="Node2D"]
 script = ExtResource("1_6j6ub")
 
@@ -619,3 +623,44 @@ layer_0/tile_data = PackedInt32Array(1310720, 0, 1, 1245184, 131072, 1, 1179648,
 
 [node name="Player" parent="." instance=ExtResource("2_yadwx")]
 position = Vector2(65, 75)
+
+[node name="Crate" parent="." instance=ExtResource("4_xa0hp")]
+position = Vector2(123, 76)
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(579, 512)
+collision_layer = 0
+collision_mask = 8
+
+[node name="ColorRect" type="ColorRect" parent="Area2D"]
+custom_minimum_size = Vector2(17.04, 0)
+offset_right = 60.24
+offset_bottom = 53.685
+color = Color(0, 1, 0.423529, 0.513726)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(69, 26)
+shape = SubResource("RectangleShape2D_j1k01")
+
+[node name="Crate2" parent="." instance=ExtResource("4_xa0hp")]
+position = Vector2(170, 323)
+
+[node name="Crate3" parent="." instance=ExtResource("4_xa0hp")]
+position = Vector2(499, 279)
+
+[node name="Crate4" parent="." instance=ExtResource("4_xa0hp")]
+position = Vector2(446, 145)
+
+[node name="Crate5" parent="." instance=ExtResource("4_xa0hp")]
+position = Vector2(196, 478)
+
+[node name="Crate6" parent="." instance=ExtResource("4_xa0hp")]
+position = Vector2(397, 344)
+
+[node name="Crate7" parent="." instance=ExtResource("4_xa0hp")]
+position = Vector2(304, 162)
+
+[node name="Crate8" parent="." instance=ExtResource("4_xa0hp")]
+position = Vector2(104, 207)
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

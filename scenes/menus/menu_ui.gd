@@ -1,5 +1,7 @@
 extends CanvasLayer
 class_name MenuUi
+@onready var tilt_bar_l = %TiltBarL
+@onready var tilt_bar_r = %TiltBarR
 
 
 var _displayed_score := 0
@@ -20,7 +22,11 @@ func _input(event):
 	if Input.is_action_just_pressed("ui_cancel"):
 		show_pause_menu(true)
 
+
+
 func _on_retry_pressed():
+	if not $PauseMenu.visible:
+		return
 	_displayed_score= 0
 	_time_elapsed= 0.0
 	show_pause_menu(false)
@@ -52,3 +58,14 @@ func update_time_elapsed():
 	var minutes:int = (temp_time)/float(60)
 	temp_time -= minutes*60
 	%TimeValue.text = "%02d:%02d:%02d:%05.2f" % [days,hours,minutes,temp_time]
+
+func set_tilt(tilt:int):
+	if tilt > 0:
+		tilt_bar_l.value = 1
+		tilt_bar_r.value = tilt
+		return
+	tilt_bar_r.value = 1
+	tilt_bar_l.value = -tilt
+
+func set_text(txt):
+	$PauseMenu/VBoxContainer/Label.text = txt

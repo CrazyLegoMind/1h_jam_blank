@@ -3,14 +3,11 @@ extends Node2D
 @onready var game_map = %GameMap
 
 func _ready():
-	printerr("vado a prendere acqua e caricatore telefono e ci siamo")
-	GlobalUtils.enemy_dead.connect(on_enemy_death)
+	GlobalUtils.enemy_died.connect(on_enemy_died)
+	GlobalUtils.start_game_timer()
 
-func on_enemy_death(type):
-	var i = randi_range(0,3)
-	var enemy_node = load("res://scenes/enemy/enemy.tscn").instantiate()
-	enemy_node.type = (type+1)%4
-	get_node("spawn_container/Marker2D"+str(i)).add_child(enemy_node)
+func on_enemy_died():
+	pass
 
 func _input(event):
 	return
@@ -34,3 +31,9 @@ func modify_cell(scren_pos:Vector2, clear:bool = false):
 	print("adding", cell_pos)
 	game_map.set_cells_terrain_connect(0,[cell_pos],0,0)
 	$NavigationRegion2D.bake_navigation_polygon()
+
+
+func _on_area_2d_area_entered(area):
+	print("entered")
+	if area.has_method("die"):
+		area.die()

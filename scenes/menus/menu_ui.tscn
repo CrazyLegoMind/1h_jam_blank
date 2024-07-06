@@ -1,14 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://cbbkfoixcjuka"]
+[gd_scene load_steps=4 format=3 uid="uid://cbbkfoixcjuka"]
 
 [ext_resource type="Script" path="res://scenes/menus/menu_ui.gd" id="1_x2fdc"]
 [ext_resource type="Theme" uid="uid://ikks65y6tq6k" path="res://assets/main_theme.tres" id="2_axeig"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cjhy6"]
+bg_color = Color(1, 0, 0, 1)
 
 [node name="MenuUI" type="CanvasLayer"]
 process_mode = 3
 script = ExtResource("1_x2fdc")
 
 [node name="ScoreLabels" type="MarginContainer" parent="."]
-modulate = Color(0, 0, 0, 0.439216)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -17,6 +19,7 @@ grow_vertical = 2
 theme = ExtResource("2_axeig")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ScoreLabels"]
+modulate = Color(0, 0, 0, 0.380392)
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
@@ -57,6 +60,35 @@ theme_override_font_sizes/font_size = 24
 text = "365:24:60:60.999"
 horizontal_alignment = 2
 
+[node name="HBoxContainer" type="HBoxContainer" parent="ScoreLabels"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="TiltBarL" type="ProgressBar" parent="ScoreLabels/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 26.63)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_styles/fill = SubResource("StyleBoxFlat_cjhy6")
+min_value = 1.0
+max_value = 50.0
+value = 1.0
+fill_mode = 1
+show_percentage = false
+
+[node name="TiltBarR" type="ProgressBar" parent="ScoreLabels/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 26.63)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_styles/fill = SubResource("StyleBoxFlat_cjhy6")
+min_value = 1.0
+max_value = 50.0
+value = 1.0
+show_percentage = false
+
 [node name="PauseMenu" type="MarginContainer" parent="."]
 visible = false
 anchors_preset = 15
@@ -78,6 +110,13 @@ alignment = 1
 
 [node name="Retry" type="Button" parent="PauseMenu/VBoxContainer"]
 layout_mode = 2
-text = "START"
+size_flags_horizontal = 4
+text = "RETRY"
+
+[node name="Label" type="Label" parent="PauseMenu/VBoxContainer"]
+layout_mode = 2
+text = "You broke your back! keep your back straight
+when lifting heavy weights"
+horizontal_alignment = 1
 
 [connection signal="pressed" from="PauseMenu/VBoxContainer/Retry" to="." method="_on_retry_pressed"]
