@@ -8,11 +8,7 @@ func _ready():
 	GlobalUtils.player_spawned.emit(self)
 
 func _input(event):
-	if Input.is_action_just_pressed("ui_accept"):
-		GlobalUtils.add_score(10)
-		die()
-	if Input.is_action_just_pressed("ui_up"):
-		GlobalUtils.start_game_timer()
+	pass
 
 func _physics_process(delta):
 	movement_input = Vector2()

@@ -3,6 +3,7 @@ extends Node2D
 @onready var game_map = %GameMap
 
 func _ready():
+	GlobalUtils.start_game_timer()
 	GlobalUtils.enemy_dead.connect(on_enemy_death)
 
 func on_enemy_death(type):

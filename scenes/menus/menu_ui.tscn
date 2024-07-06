@@ -58,6 +58,7 @@ text = "365:24:60:60.999"
 horizontal_alignment = 2
 
 [node name="PauseMenu" type="MarginContainer" parent="."]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
