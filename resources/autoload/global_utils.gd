@@ -10,13 +10,18 @@ var player = null
 
 func _ready():
 	player_died.connect(_on_player_died)
+	enemy_dead.connect(_on_enemy_dead)
 	player_spawned.connect(_on_player_spawned)
 	add_child(menu_ui_node)
 	menu_ui_node.retry.connect(_on_menu_retry)
 
 
-func _on_player_died():
+func _on_player_died(txt ="end"):
 	menu_ui_node.show_pause_menu(true)
+	menu_ui_node.set_end_text(txt)
+
+func _on_enemy_dead():
+	pass
 
 func _on_player_spawned(pl):
 	player = pl

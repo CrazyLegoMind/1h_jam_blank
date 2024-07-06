@@ -3,7 +3,6 @@ extends Node2D
 @onready var game_map = %GameMap
 
 func _ready():
-	printerr("vado a prendere acqua e caricatore telefono e ci siamo")
 	GlobalUtils.enemy_dead.connect(on_enemy_death)
 
 func on_enemy_death(type):
