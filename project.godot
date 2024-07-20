@@ -23,7 +23,7 @@ GlobalUtils="*res://resources/autoload/global_utils.gd"
 
 window/size/viewport_width=672
 window/size/viewport_height=672
-window/stretch/mode="viewport"
+window/stretch/mode="canvas_items"
 window/stretch/aspect="keep_width"
 
 [importer_defaults]

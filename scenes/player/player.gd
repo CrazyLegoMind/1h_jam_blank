@@ -2,7 +2,9 @@ extends CharacterBody2D
 
 var movement_input := Vector2()
 var mov_speed = 80
+var batteries = 0
 @onready var animation_player_node:AnimationPlayer = $AnimationPlayer
+@onready var battery_container = %BatteryContainer
 
 func _ready():
 	GlobalUtils.player_spawned.emit(self)
@@ -31,6 +33,24 @@ func _physics_process(delta):
 		anim = "walk_h"
 	$AnimationPlayer.play(anim)
 
-func die():
-	GlobalUtils.player_died.emit()
+func die(msg=""):
+	GlobalUtils.player_died.emit(msg)
 	queue_free()
+
+func battery_amount()->int:
+	return batteries
+
+func pickup_battery(battery):
+	batteries += 1
+	battery.call_deferred("reparent",$BatteryContainer,false)
+	battery.position = Vector2(0, (batteries-1)*9)
+	battery.rotation_degrees = 90
+
+func consume_batteries(amt:int):
+	if amt > batteries:
+		die("you got electrocuted")
+		return
+	batteries -= amt
+	var childs = battery_container.get_children()
+	for i in range(amt):
+		childs[i].queue_free()

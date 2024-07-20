@@ -34,3 +34,7 @@ func modify_cell(scren_pos:Vector2, clear:bool = false):
 	print("adding", cell_pos)
 	game_map.set_cells_terrain_connect(0,[cell_pos],0,0)
 	$NavigationRegion2D.bake_navigation_polygon()
+
+
+func _on_win_body_entered(body):
+	GlobalUtils.player_died.emit("YOU WIN! ... \n are you an electrician?")

@@ -8,7 +8,7 @@
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lmohl"]
 radius = 4.0
-height = 14.0
+height = 20.0
 
 [sub_resource type="Animation" id="Animation_cfkt3"]
 length = 0.001
@@ -225,6 +225,10 @@ _data = {
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
 script = ExtResource("1_5v0kh")
+
+[node name="BatteryContainer" type="Node2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(0, -30)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -4)
