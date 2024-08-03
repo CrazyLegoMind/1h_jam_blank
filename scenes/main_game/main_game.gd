@@ -1,4 +1,5 @@
 extends Node2D
+class_name GameHandler
 
 @onready var game_map = %GameMap
 
@@ -34,3 +35,8 @@ func modify_cell(scren_pos:Vector2, clear:bool = false):
 	print("adding", cell_pos)
 	game_map.set_cells_terrain_connect(0,[cell_pos],0,0)
 	$NavigationRegion2D.bake_navigation_polygon()
+
+
+func _on_win_area_body_entered(body):
+	if body is Player:
+		body.die("congratulations you puzzled the map!")

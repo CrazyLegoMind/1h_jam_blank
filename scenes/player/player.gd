@@ -1,8 +1,11 @@
 extends CharacterBody2D
+class_name Player
 
 var movement_input := Vector2()
 var mov_speed = 80
+var pickup_state = false
 @onready var animation_player_node:AnimationPlayer = $AnimationPlayer
+@onready var tile_sprite = %TileSprite
 
 func _ready():
 	GlobalUtils.player_spawned.emit(self)
@@ -31,6 +34,14 @@ func _physics_process(delta):
 		anim = "walk_h"
 	$AnimationPlayer.play(anim)
 
-func die():
-	GlobalUtils.player_died.emit()
+func die(msg = ""):
+	GlobalUtils.player_died.emit(msg)
 	queue_free()
+
+func pickup(state:bool):
+	pickup_state = state
+	tile_sprite.visible = pickup_state
+	if state:
+		$CollisionShape2D.scale = Vector2(1.7,1.7)
+	else:
+		$CollisionShape2D.scale = Vector2(1,1)

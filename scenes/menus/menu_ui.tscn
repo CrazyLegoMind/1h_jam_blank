@@ -8,7 +8,7 @@ process_mode = 3
 script = ExtResource("1_x2fdc")
 
 [node name="ScoreLabels" type="MarginContainer" parent="."]
-modulate = Color(0, 0, 0, 0.439216)
+modulate = Color(0, 0, 0, 1)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -23,13 +23,14 @@ size_flags_vertical = 0
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ScoreLabels/VBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
 
 [node name="ScoreName" type="Label" parent="ScoreLabels/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 30
 text = "Score:"
 
 [node name="ScoreValue" type="Label" parent="ScoreLabels/VBoxContainer/HBoxContainer"]
@@ -37,7 +38,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 8
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 30
 text = "99999999"
 horizontal_alignment = 2
 

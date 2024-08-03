@@ -1,14 +1,16 @@
-[gd_scene load_steps=11 format=3 uid="uid://cv1sae8op8unp"]
+[gd_scene load_steps=12 format=3 uid="uid://cv1sae8op8unp"]
 
 [ext_resource type="Script" path="res://scenes/player/player.gd" id="1_5v0kh"]
 [ext_resource type="Texture2D" uid="uid://dqj83q0j4t2ou" path="res://scenes/player/body_sprite.png" id="3_vkamo"]
 [ext_resource type="Texture2D" uid="uid://fosf68e3f35l" path="res://scenes/player/arm_sprite.png" id="3_wsqyp"]
 [ext_resource type="Texture2D" uid="uid://cm0638qn6uneg" path="res://scenes/player/leg_sprite.png" id="3_y1jt4"]
-[ext_resource type="Texture2D" uid="uid://cydmfwgjndnch" path="res://icon.svg" id="4_1cdrt"]
+[ext_resource type="Texture2D" uid="uid://dk5edhbt0pa46" path="res://scenes/main_game/stdtileset2.png" id="4_nf0k1"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lmohl"]
-radius = 4.0
-height = 14.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_ts4p5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_61jdg"]
+atlas = ExtResource("4_nf0k1")
+region = Rect2(204, 101.861, 32.1706, 32.1387)
 
 [sub_resource type="Animation" id="Animation_cfkt3"]
 length = 0.001
@@ -227,9 +229,9 @@ collision_layer = 2
 script = ExtResource("1_5v0kh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -4)
+position = Vector2(0, -10)
 rotation = 1.5708
-shape = SubResource("CapsuleShape2D_lmohl")
+shape = SubResource("CircleShape2D_ts4p5")
 
 [node name="SpriteContainer" type="Node2D" parent="."]
 metadata/_edit_group_ = true
@@ -251,10 +253,15 @@ texture = ExtResource("3_wsqyp")
 centered = false
 offset = Vector2(-2, -2)
 
-[node name="Sprite2D" type="Sprite2D" parent="SpriteContainer/body/arm"]
-position = Vector2(5.215, 7.245)
-scale = Vector2(0.035, 0.035)
-texture = ExtResource("4_1cdrt")
+[node name="Marker2D" type="Marker2D" parent="SpriteContainer/body/arm"]
+position = Vector2(-5, 6)
+
+[node name="TileSprite" type="Sprite2D" parent="SpriteContainer/body/arm/Marker2D"]
+unique_name_in_owner = true
+visible = false
+modulate = Color(0.47451, 1, 0.576471, 0.721569)
+z_index = 2
+texture = SubResource("AtlasTexture_61jdg")
 
 [node name="leg" type="Sprite2D" parent="SpriteContainer"]
 position = Vector2(2, -9)
